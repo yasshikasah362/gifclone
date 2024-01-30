@@ -1,95 +1,58 @@
-import Image from 'next/image'
-import styles from './page.module.css'
+"use client";
 
-export default function Home() {
-  return (
-    <main className={styles.main}>
-      <div className={styles.description}>
-        <p>
-          Get started by editing&nbsp;
-          <code className={styles.code}>app/page.js</code>
-        </p>
-        <div>
-          <a
-            href="https://vercel.com?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-            target="_blank"
-            rel="noopener noreferrer"
-          >
-            By{' '}
-            <Image
-              src="/vercel.svg"
-              alt="Vercel Logo"
-              className={styles.vercelLogo}
-              width={100}
-              height={24}
-              priority
-            />
-          </a>
+import axios from "axios";
+import Link from "next/link";
+import { useRouter } from "next/navigation";
+import { useContext, useEffect} from "react";
+import { DataContext } from "./context";
+import Nav from "@/app/components/Nav"
+
+const page = () => {
+    const router = useRouter();
+    const [Data, setData] = useContext(DataContext);
+
+
+    const GetTrending = async () => {
+        const { data } = await axios.get("https://api.giphy.com/v1/gifs/translate?api_key=g3TEgnU2pGODGJrcvHcn36HwOhK3E8l9&s=random");
+        setData(data);
+        // console.log(data)
+        router.push("/list");
+    };
+    // console.log(Data)
+
+    useEffect(()=>{
+        GetTrending
+    },[]);
+
+    
+//  reconciliation  realdom virtualdom
+    return (
+        <>
+        
+    <div className="main">
+        {/* <Nav/> */}
+
+        <div style={{height:'12%',width:'100%',backgroundColor:'black',display:'flex',alignItems:'center',justifyContent:'center',gap:'50px'}}>
+                <img style={{height:'100%',width:'15%'}} src="https://images.squarespace-cdn.com/content/v1/566c552269a91af72b314d9c/1487647150282-3SCUC6X1TXR9QQQ3FZ6O/image-asset.jpeg?format=1500w" alt="" />
+                <Link href='/signin' style={{textDecoration:'none',color:'white',fontSize:'1.5rem'}}>Create New Account</Link>
+                <Link href='/login' style={{textDecoration:'none',color:'white',fontSize:'1.5rem'}}>Login</Link>
         </div>
-      </div>
+    
 
-      <div className={styles.center}>
-        <Image
-          className={styles.logo}
-          src="/next.svg"
-          alt="Next.js Logo"
-          width={180}
-          height={37}
-          priority
-        />
-      </div>
+        <h1 style={{color:'white',fontSize:'3rem',marginLeft:'400px'}}>GIPHY</h1>
+        <p style={{color:'white',fontSize:'1.5rem',marginLeft:'400px'}}>The internet’s source for visuals. <br />
+Powered by creators everywhere.</p>
+          
+    </div>
 
-      <div className={styles.grid}>
-        <a
-          href="https://nextjs.org/docs?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Docs <span>-&gt;</span>
-          </h2>
-          <p>Find in-depth information about Next.js features and API.</p>
-        </a>
+       
+        </>
 
-        <a
-          href="https://nextjs.org/learn?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Learn <span>-&gt;</span>
-          </h2>
-          <p>Learn about Next.js in an interactive course with&nbsp;quizzes!</p>
-        </a>
+      
+         
+        
+    );
+};
 
-        <a
-          href="https://vercel.com/templates?framework=next.js&utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Templates <span>-&gt;</span>
-          </h2>
-          <p>Explore starter templates for Next.js.</p>
-        </a>
+export default page;
 
-        <a
-          href="https://vercel.com/new?utm_source=create-next-app&utm_medium=appdir-template&utm_campaign=create-next-app"
-          className={styles.card}
-          target="_blank"
-          rel="noopener noreferrer"
-        >
-          <h2>
-            Deploy <span>-&gt;</span>
-          </h2>
-          <p>
-            Instantly deploy your Next.js site to a shareable URL with Vercel.
-          </p>
-        </a>
-      </div>
-    </main>
-  )
-}
